@@ -1,0 +1,1223 @@
+{
+  "$comment": {
+    "***": "polymer (PolyInfo mapping - KU 이정현 - KIST 손정곤)",
+    "^^^": "quantum chemistry (JAIST Kenta Hongo)",
+    "**#": "hard & protective coating (CUMT-NIMTE Aiying Wang, Xiaowei Li)",
+    "@@@": "biomedical materials (CUMT Xiaowei Li)",
+    "$$$": "composite (KIMS 장홍규$$$!@#, KIST 유재상$$$@@@) ",
+    "!!!": "HEA (USTB Haiqing Yin + Korea)",
+    "%%%": "analysis (KIST 변영운)",
+    "###": "to be discussed in workshop",
+    "&&&": "2024-2 외부검토의견 반영"
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/kmds-schema.json",
+  "title": "KMDS materials research data schema (for test)",
+  "description": "simplied schema to check the schema validity",
+  "type": "object",
+  "required": [
+    "metadata",
+    "materials",
+    "system"
+  ],
+  "properties": {
+    "metadata": {
+      "description": "metadata of the data set ",
+      "type": "object",
+      "required": [
+        "data name",
+        "data classification",
+        "data generation date",
+        "data source",
+        "contributor",
+        "keywords"
+      ],
+      "properties": {
+        "data name": {
+          "description": "name of the data set, named by data provider; This is your own unique data or specimen identifier. With this text string alone, you should be able to identify the materials (system) in your own internal data management system.",
+          "type": "string",
+          "alias": "sample ID",
+          "example": "Zinc coated Fe-6Mn-3Al steel plate; Ti/Al dissimilar welded joint; Fe/C catalyst; Gd doped MOF 370; LLZO (Li7La3Zr2O12) Solid Electrolyte; Low Carbon TRIP Steel; 0.15C1.0Si1.5Mn1.5Al; Co single atom catalyst; Pt50Co50/TiO2; Material_1/Material_2/Material_3/Material_4;  "
+        },
+        "data classification": {
+          "description": "classification code for relevant fields of science and technology announced by Ministry of Science and ICT of KOREA (https://www.law.go.kr)",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}\\\\d{4}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "example": "[\"EB0101\",\"EB0103\"]"
+        },
+        "data generation date": {
+          "description": "date when the data is added to the present database or data lake",
+          "alias": "",
+          "type": "string",
+          "format": "date",
+          "example": "2021-05-24; 2008-03-01"
+        },
+        "data source": {
+          "description": "source information of the data, such as lab log, source publication, related projects, DOI of data, lead author, and publication date if the data is extracted from a publication; The DOI number referring to the published paper or dataset where the data can be found. If the data is unpublished, enter “Unpublished”; lead author is the surname of the first author. If several authors, end with et al. If the DOI number is given correctly, this will be extracted automatically from www.crossref.org ; publication date will be extracted automatically from www.crossref.org if the DOI number is given correctly.     ",
+          "type": "string",
+          "example": "extracted from Acta Mater vol 13, page 2089 (2000); archived on 01/01/2021; 10.1016/j.actamat.2016.08.081; generated in CNMD, POSTECH (2021)"
+        },
+        "contributor": {
+          "description": "researcher(s) who provide the data",
+          "alias": "name_of_person_entering_the_data",
+          "type": "object",
+          "required": [
+            "name",
+            "affiliation",
+            "email address"
+          ],
+          "properties": {
+            "name": {
+              "description": "contibutor's name in the form of \"[last name], [first name]\" ",
+              "type": "string",
+              "example": "Jordan, Mike; Hong, Gil-Dong"
+            },
+            "affiliation": {
+              "description": "contibutor's affliation (insitute's name and further description of working place)",
+              "type": "string",
+              "example": "Advanced Materials Research Center, KIST; Department of Energy, KAIST; Metallurgy Division, KIMS"
+            },
+            "email address": {
+              "description": "contributor’s email address",
+              "type": "string",
+              "format": "email",
+              "example": "Thomas.Mueller@kriss.re.kr"
+            },
+            "researcher number": {
+              "description": "contributor’s researcher number ID in Integrated R&D Information System of Korea (https://iris.go.kr); only applied for Korean researchers",
+              "type": "string",
+              "example": "12981649"
+            }
+          }
+        },
+        "keywords": {
+          "description": "keywords representing the data set or material type and description, at least 3 keywords should be provided",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 3,
+          "uniqueItems": true,
+          "example": "[\"solar cell\",\"perovskite\",\"KIST\"]"
+        },
+        "embargo": {
+          "description": "date when allowing open access of the data",
+          "type": "string",
+          "format": "date",
+          "example": "2002-01-10 24:00; "
+        },
+        "rights": {
+          "description": "creative commons copyrights licenses",
+          "type": "string",
+          "enum": [
+            "CC0",
+            "CC BY",
+            "CC BY-NC",
+            "CC BY-ND",
+            "CC BY-SA",
+            "CC BY-NC-SA",
+            "CC BY-NC-ND"
+          ],
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "materials": {
+      "description": "inherent data of material that composed of the material system; this is array of n materials defined by the material_id",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "decription": "id of materials inside of the dataset, that is to be used for defining materials system",
+            "type": "string",
+            "pattern": "^material_\\\\d{2}$",
+            "example": "material_01; material_05; materials_13"
+          },
+          "name": {
+            "description": "description of materials according to customary usage, designation system, composition, supplier, brand name, polymer name based on IUPAC recommendation (https://iupac.org/polymer-edu/polymer-naming/), etc. ",
+            "alias": "",
+            "type": "string",
+            "example": "annealed INCONEL625 plate; Al7075-T6; Al10Si5Mg; Fe; CNT; TiO2; Ag; In2O2; LLZO; Aldrich CFO plate; poly(methyl methacrylate); poly[oxy(1-bromoethane-1,2-diyl)]; polypropylene; $$$ Toray T300; $$$ Owens Corning E-glass; $$$ Hyosung Carbon Fiber; Kukdo Epoxy $$$!@#; Hyosung Nylon $$$!@#; polyimide $$$!@#"
+          },
+          "chemical information": {
+            "description": "atomic scale information of material; *** 폴리머 데이터 추가하면서 대폭 수정",
+            "alias": "",
+            "type": "object",
+            "properties": {
+              "composition": {
+                "description": "constituent of materials ",
+                "alias": "",
+                "type": "object",
+                "required": [
+                  "value",
+                  "unit"
+                ],
+                "properties": {
+                  "value": {
+                    "description": "composition value",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "constituent": {
+                          "description": "name of constituent such as element symbol, molecular fomula, molecule name, etc",
+                          "type": "string",
+                          "example": "Al; C; Fe2O3; alumina"
+                        },
+                        "concentration": {
+                          "description": "concentration of the element in material",
+                          "type": "number",
+                          "example": "45.6; 0.4"
+                        }
+                      }
+                    }
+                  },
+                  "unit": {
+                    "description": "unit of the composition value in at.% or wt.%",
+                    "enum": [
+                      "at.%",
+                      "wt.%"
+                    ]
+                  },
+                  "uncertainty": {
+                    "$ref": "#/$defs/uncertainty"
+                  },
+                  "measurement": {
+                    "$ref": "#/$defs/measurement"
+                  }
+                },
+                "example": "{\"value\": [{\"consitituent\": \"Pt\", \"concentration\": 56.0}, {consitituent\": \"Ni\", \"concentration\": 34.7}], \"unit\":\"at.%\", \"uncertainty\":0.1}; [\"value\": {\"consitituent\": \"Fe2O3\", \"concentration\":97.8}, {consitituent\":\"Y2O3\", \"concentration\":2.2}, \"unit\":\"wt.%\", \"uncertainty\":0.2}"
+              }
+            }
+          },
+          "structure": {
+            "description": "structural information of materials in all scales; crystallographic, micro, meso and macro scales",
+            "alias": "",
+            "type": "object",
+            "properties": {
+              "crystallography": {
+                "description": "crystallographic data of the material",
+                "type": "object",
+                "properties": {
+                  "Bravais lattice": {
+                    "description": "Name of 14 Bravais lattice",
+                    "type": "string",
+                    "enum": [
+                      "simple cubic",
+                      "bodycentered cubic",
+                      "face centered cubic",
+                      "primitice hexagonal",
+                      "primitive trigonal",
+                      "primitive tetragonal",
+                      "body cenered tetragonal",
+                      "primitive orthorhombic",
+                      "body centered orthorombic",
+                      "base centered orthorombic",
+                      "face centered orthorombic",
+                      "primitive moniclinic",
+                      "body centered monoclinic",
+                      "primitive triclinic"
+                    ]
+                  },
+                  "measurement": {
+                    "$ref": "#/$defs/measurement"
+                  }
+                }
+              },
+              "measurement": {
+                "$ref": "#/$defs/measurement"
+              }
+            }
+          },
+          "property": {
+            "description": "attribute, quality, or chracteristic of materials",
+            "alias": "",
+            "type": "object",
+            "properties": {
+              "electrical property": {
+                "description": "physical properties that a material exhibits upon the application of electric forces",
+                "alias": "",
+                "type": "object",
+                "properties": {
+                  "dielectric constant": {
+                    "description": "relative premittivity compared to the vacuum in induced polarization stored in a material under electric field.",
+                    "alias": "relative permittivity",
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "description": "data value",
+                        "type": "number",
+                        "unit": "none",
+                        "example": 1.2
+                      },
+                      "uncertainty": {
+                        "$ref": "#/$defs/uncertainty"
+                      },
+                      "measurement": {
+                        "$ref": "#/$defs/measurement"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "process": {
+            "$ref": "#/$defs/process"
+          }
+        },
+        "example": "{\"id\": \"material_01\", \"name\"; \"CNT fiber\", \"chemical information\":{...}, \"structure\":{...}, \"property\":{...}, \"process\":{...}}"
+      },
+      "example": "[{\"id\":\"material_01\",...},{\"id\":\"material_02\",...}...]"
+    },
+    "system": {
+      "description": "data of material system associated to a specific application; \"note\" is for general description of the materials system, \"configuration\" includes the information of system composition in terms of the materials existing in the materials section. It also has \"process\" data to build the materials system. Finally, \"performance\" data is the performance of the material for the specific application. ",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "system name classified in NCMRD schema",
+          "alias": "",
+          "type": "string",
+          "enum": [
+            "catalyst",
+            "piezoelectric",
+            "porous materials"
+          ],
+          "minItems": 1,
+          "maxItems": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "catalyst"
+              }
+            },
+            "$comment": "system composed of catalyst active particle with support, sometimes with promotors"
+          },
+          "then": {
+            "properties": {
+              "note": {
+                "description": "description of the system such as major research theme or application",
+                "type": "string",
+                "example": "LIB made in UNIST Prof. Seo's lab today"
+              },
+              "configuration": {
+                "description": "configurational information of the catalyst system ",
+                "alias": "",
+                "type": "object",
+                "properties": {
+                  "active material": {
+                    "description": "materials ID (variable name) of active material in the catalyst system",
+                    "alias": "",
+                    "type": "string",
+                    "example": "Material_1; Material_2"
+                  },
+                  "amount of active material": {
+                    "description": "amount of active materials in the catlyst system",
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "description": "data value",
+                        "type": "number",
+                        "unit": "%",
+                        "example": 0.3
+                      },
+                      "uncertainty": {
+                        "$ref": "#/$defs/uncertainty"
+                      }
+                    }
+                  },
+                  "coating material": {
+                    "description": "materials ID (variable name) of coating material in the catalyst system",
+                    "alias": "",
+                    "type": "string",
+                    "example": "Material_1; Material_2"
+                  },
+                  "amount of coating material": {
+                    "description": "amount of coating materials in the catalyst system",
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "description": "data value",
+                        "type": "number",
+                        "unit": "%",
+                        "example": 0.3
+                      },
+                      "uncertainty": {
+                        "$ref": "#/$defs/uncertainty"
+                      }
+                    }
+                  },
+                  "promotor": {
+                    "description": "addictive materials which improves the catalyst performance",
+                    "alias": "",
+                    "type": "string",
+                    "example": "Material_3; Material_4"
+                  },
+                  "amount of promotor": {
+                    "description": "amount of promotor added in the catlyst system",
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "description": "data value",
+                        "type": "number",
+                        "unit": "%",
+                        "example": 0.1
+                      },
+                      "uncertainty": {
+                        "$ref": "#/$defs/uncertainty"
+                      }
+                    }
+                  },
+                  "support materials": {
+                    "description": "materials ID (variable name) of support in the catalyst system",
+                    "alias": "",
+                    "type": "string",
+                    "example": "Material_2; Material_1"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "process": {
+                "$ref": "#/$defs/process"
+              },
+              "performance": {
+                "description": "Performance of the catalyst system",
+                "alias": "",
+                "type": "object",
+                "properties": {
+                  "thermal": {
+                    "description": "Thermal performance",
+                    "type": "object",
+                    "properties": {
+                      "conversion rate": {
+                        "description": "conversion rate per catalyst ",
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "temperature": {
+                              "description": "temperature at which conversion rate is measured",
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "description": "data value",
+                                  "type": "number",
+                                  "unit": "K",
+                                  "example": 350
+                                },
+                                "uncertainty": {
+                                  "$ref": "#/$defs/uncertainty"
+                                }
+                              }
+                            },
+                            "weight": {
+                              "description": "weight of catalyst",
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "description": "data value",
+                                  "type": "number",
+                                  "unit": "g",
+                                  "example": 3
+                                },
+                                "uncertainty": {
+                                  "$ref": "#/$defs/uncertainty"
+                                }
+                              }
+                            },
+                            "conversion rate": {
+                              "description": "estimated conversion rate",
+                              "type": "object",
+                              "properties": {
+                                "value": {
+                                  "description": "data value",
+                                  "type": "number",
+                                  "unit": "%",
+                                  "example": 90
+                                },
+                                "uncertainty": {
+                                  "$ref": "#/$defs/uncertainty"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "equilibrium constant": {
+                        "description": "The ratio of products to reactants when a chemical reaction approaches to equilibrium",
+                        "type": "number",
+                        "unit": "none",
+                        "example": 6.63e-8
+                      },
+                      "measurement": {
+                        "$ref": "#/$defs/measurement"
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "piezoelectric"
+              }
+            },
+            "$comment": "system composed of piezoelectric layer alone"
+          },
+          "then": {
+            "properties": {
+              "note": {
+                "description": "description of the system such as major research theme or application",
+                "type": "string",
+                "example": "energy havester made in SKKU Prof. Kim's lab 22-09-19"
+              },
+              "configuration": {
+                "description": "configurational information of a piezoelectric device",
+                "type": "object",
+                "properties": {
+                  "piezoelectric layer": {
+                    "description": "a layer containing piezoelectric materials",
+                    "type": "object",
+                    "properties": {
+                      "length": {
+                        "description": "length of the piezoelectric layer",
+                        "type": "number",
+                        "unit": "m",
+                        "example": 0.015
+                      },
+                      "width": {
+                        "description": "width of the piezoelectric layer",
+                        "type": "number",
+                        "unit": "m",
+                        "example": 0.015
+                      },
+                      "thickness": {
+                        "description": "thickness of the piezoelectric layer",
+                        "type": "number",
+                        "unit": "m",
+                        "example": 0.00008
+                      },
+                      "material": {
+                        "description": "material name of the piezoelectric layer",
+                        "type": "string",
+                        "example": "Material_2; P(VDF-TrFE)"
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "process": {
+                "$ref": "#/$defs/process"
+              },
+              "performance": {
+                "description": "performance data of the piezoelectric device",
+                "type": "object",
+                "properties": {
+                  "maximum output current": {
+                    "description": "measured maximum output current when applying the load to the piezoelectric device",
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "description": "value of the maximum output current",
+                        "type": "number",
+                        "unit": "A",
+                        "example": 1e-9
+                      },
+                      "uncertainty": {
+                        "$ref": "#/$defs/uncertainty"
+                      },
+                      "applied load": {
+                        "description": "applied load to measure piezoelectric performance of device",
+                        "type": "object",
+                        "properties": {
+                          "load type": {
+                            "description": "type of the applied load with corresponding data unit",
+                            "type": "string",
+                            "enum": [
+                              "Bending in %",
+                              "Tapping in N",
+                              "Vibration in Hz"
+                            ]
+                          },
+                          "value": {
+                            "description": "value of the applied load",
+                            "type": "number",
+                            "unit": "as defined in \"load type\"",
+                            "example": "1; 5; 30"
+                          }
+                        }
+                      },
+                      "load resistance": {
+                        "description": "loaded resistance across the device to measure voltage",
+                        "type": "number",
+                        "unit": "Ohm",
+                        "example": 10000000
+                      }
+                    }
+                  },
+                  "measurement": {
+                    "$ref": "#/$defs/measurement"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "name": {
+                "const": "porous materials"
+              }
+            },
+            "$comment": "Information about the gas adsorption property of a porous material system"
+          },
+          "then": {
+            "properties": {
+              "note": {
+                "description": "description of the system such as major research theme or application ",
+                "alias": "",
+                "type": "string",
+                "example": "H2S gas adsorption of KIST-MOF-34"
+              },
+              "configuration": {
+                "description": "configurational information of the porous materials system ",
+                "alias": "",
+                "type": "object",
+                "properties": {
+                  "framework": {
+                    "description": "framework of porous material ",
+                    "alias": "",
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "Materials_1"
+                    }
+                  },
+                  "grafted molecule": {
+                    "description": "Chemically or physically grafted molecule inside the pore of porous material",
+                    "alias": "",
+                    "type": "string",
+                    "example": "Materials_2"
+                  },
+                  "grafted molecule amount": {
+                    "description": "Loading amount of grafted molecule inside the pore of porous material",
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "description": "data value",
+                        "type": "number",
+                        "unit": "mol g^{-1}",
+                        "example": 0.002
+                      },
+                      "uncertainty": {
+                        "$ref": "#/$defs/uncertainty"
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "process": {
+                "description": "process to build the materials system",
+                "(process_n)": {
+                  "description": "information of nth process, sequentially stored in array",
+                  "type": "corresponding data module of the process"
+                }
+              },
+              "performance": {
+                "description": "Performance of the gas adsorption behavior of porous materials system",
+                "alias": "",
+                "type": "object",
+                "properties": {
+                  "gas adsorption": {
+                    "description": "Gas adsorption performance",
+                    "alias": "",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "absobate": {
+                          "description": "Name of adsorbed gas molecules",
+                          "alias": "",
+                          "type": "string",
+                          "example": "CO2"
+                        },
+                        "capacity": {
+                          "description": "Amount of adsorbed gas molecules",
+                          "alias": "",
+                          "value": {
+                            "description": "data value",
+                            "type": "number",
+                            "unit": "mol g^{-1}",
+                            "example": 0.0034
+                          },
+                          "uncertainty": {
+                            "$ref": "#/$defs/uncertainty"
+                          }
+                        },
+                        "enthalpy": {
+                          "description": "Binding enthalpy of adsorbed gas molecules",
+                          "alias": "",
+                          "value": {
+                            "description": "data value",
+                            "type": "number",
+                            "unit": "kJ mol^{-1}",
+                            "example": -45
+                          },
+                          "uncertainty": {
+                            "$ref": "#/$defs/uncertainty"
+                          }
+                        },
+                        "temperature": {
+                          "description": "temperature at which adsorption capacity is measured",
+                          "type": "number",
+                          "unit": "K",
+                          "example": 298
+                        },
+                        "pressure": {
+                          "description": "pressure at which adsorption capacity is measured",
+                          "type": "number",
+                          "unit": "Mpa",
+                          "example": 0.2
+                        }
+                      }
+                    },
+                    "example": [
+                      "{\"absobate\": \"CO2\", \"capacity\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"enthalpy\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"temperature\": 298, \"pressure\": 0.2}",
+                      "{\"absobate\": \"NH3\", \"capacity\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"enthalpy\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"temperature\": 298, \"pressure\": 0.2}"
+                    ]
+                  },
+                  "measurement": {
+                    "$ref": "#/$defs/measurement"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "uncertainty": {
+      "description": "uncertainty of the value",
+      "type": "number",
+      "unit": "same as value"
+    },
+    "measurement": {
+      "description": "measurement method and condition",
+      "alias": "characterization tools, analysis method",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "SEM": {
+            "description": "Method for analyzing morphology of specimen using scanning electron beam ",
+            "alias": "scanning electron microscope %%% ",
+            "type": "object",
+            "properties": {
+              "instrument": {
+                "description": "instrument that was used during measurement",
+                "type": "string",
+                "example": "Nova SEM; Inspect F; Inspect F50; Teneo VS; E-SEM; Regulus 8230"
+              },
+              "gun type": {
+                "description": "electron source type",
+                "type": "string",
+                "example": "W, CeB6, LaB6"
+              },
+              "acquisition condition": {
+                "description": "acquisition conditions for measurement",
+                "type": "object",
+                "properties": {
+                  "acceleration voltage": {
+                    "description": "Acceleration voltage of electron beam generation",
+                    "type": "number",
+                    "unit": "kV",
+                    "example": 10
+                  },
+                  "current (spot size)": {
+                    "description": "Probe current (electron probe size)",
+                    "type": "number",
+                    "unit": "{\\mu A}",
+                    "example": "180 (4)"
+                  },
+                  "magnification": {
+                    "description": "Ratio between scan area and display size",
+                    "type": "number",
+                    "example": 5000
+                  },
+                  "pixel size": {
+                    "description": "Physical dimension represented by a single pixel %%% ",
+                    "type": "number",
+                    "unit": "nm",
+                    "example": 0.15
+                  },
+                  "field of view": {
+                    "description": "Total observable area in the horizontal direction of the image, calculated as the product of pixel size and the number of pixels in the horizontal direction %%% ",
+                    "type": "number",
+                    "unit": "nm",
+                    "example": 615
+                  },
+                  "working distance": {
+                    "description": "distance between the specimen and the lower pole piece",
+                    "type": "number",
+                    "unit": "cm",
+                    "example": 10
+                  }
+                }
+              },
+              "mode": {
+                "description": "acquisition mode",
+                "type": "string",
+                "example": "SEI, BSE, EBSD"
+              },
+              "raw data": {
+                "description": "URI of data obtained duringmeasurement and analysis",
+                "type": "string",
+                "example": "SEM.tif; BSE.tif; EDS.csv; EBSD.oim; EBSD.osc"
+              }
+            }
+          },
+          "SIMS": {
+            "description": "Method for  analyzing the composition of solid surfaces using SIMS to characterize the mass to charge ratio ",
+            "alias": "secondary ion mass spectrometry %%% ",
+            "type": "object",
+            "properties": {
+              "instrument": {
+                "description": "instrument that was used during measurement",
+                "type": "string",
+                "example": "Magnetic sector SIMS; ToF-SIMS; Quadrupole SIMS"
+              },
+              "acquisition condition": {
+                "description": "acquisition conditions for measurement",
+                "type": "object",
+                "properties": {
+                  "primary ion": {
+                    "description": "Ion source used in measurement",
+                    "type": "string",
+                    "example": "Bi+; Cs+; Ga+; O2+; O-; Ar cluster ions"
+                  },
+                  "beam energy": {
+                    "description": "Energy of primary Ion beam",
+                    "type": "number",
+                    "unit": "keV",
+                    "example": "0.5; 3; 6; 10"
+                  },
+                  "beam current": {
+                    "description": "Current of the primary ion beam",
+                    "type": "number",
+                    "unit": "pA",
+                    "example": "1; 5; 10; 20; 50; 100"
+                  },
+                  "neutralizer": {
+                    "description": "neutralizing gun",
+                    "type": "object",
+                    "properties": {
+                      "flood gun": {
+                        "description": "Used when charging occurs on the sample surface for ToF-SIMS ",
+                        "type": "number",
+                        "unit": "V",
+                        "example": "20V ;-20"
+                      },
+                      "E-gun": {
+                        "description": "Used when charging occurs on the sample surface for D-SIMS",
+                        "type": "number",
+                        "unit": "{\\mu A}",
+                        "example": "-10; -30"
+                      }
+                    }
+                  },
+                  "polarity": {
+                    "description": "Polarity of secondary ions",
+                    "type": "string",
+                    "example": "+; -"
+                  },
+                  "sample voltage": {
+                    "description": "Applied voltages at sample position for D-SIMS",
+                    "type": "number",
+                    "unit": "eV",
+                    "example": "5; 1.5; 2"
+                  },
+                  "raster size": {
+                    "description": "sputter area in measurement",
+                    "type": "number",
+                    "unit": "{\\mu m}",
+                    "example": "50; 100; 200; 300 "
+                  },
+                  "sputter time": {
+                    "description": "sputter time in measurement",
+                    "type": "number",
+                    "unit": "s",
+                    "example": "50; 100; 200; 300 "
+                  }
+                }
+              },
+              "raw data": {
+                "description": "URI of data obtained duringmeasurement and analysis",
+                "type": "string",
+                "example": "ita; itm"
+              }
+            }
+          },
+          "X-ray diffraction": {
+            "description": "Method for analyzing crystalline material using X-ray to characterize the phase, cyrstallinity and crystalline size etc. %%% ",
+            "alias": "XRD",
+            "type": "object",
+            "properties": {
+              "instrument": {
+                "description": "instrument that was used during measurement",
+                "type": "string",
+                "example": "PANalycal Empyrean; PANalycal X'pert Pro; Bruker D8 Advance; Bruker D8 Discover; Rigaku ATX-G; Rigaku Dmax2500"
+              },
+              "specimen form": {
+                "description": "The form of the sample used in the measurement &&&",
+                "alias": "type of samples, type of specimen",
+                "type": "string",
+                "example": "thin film; powder; pellet"
+              },
+              "full width at half maximum": {
+                "description": "the width of an X-ray diffraction peak measured at half of its maximum intensity &&& %%%### 측정의 결과이지 측정의 조건은 아님.",
+                "type": "number",
+                "unit": "degree"
+              },
+              "acquisition condition": {
+                "description": "acquisition conditions for measurement",
+                "type": "object",
+                "properties": {
+                  "x-ray source": {
+                    "description": "X-ray source used in the XRD measurement",
+                    "type": "string",
+                    "example": "Cu, Cr, Mo"
+                  },
+                  "x-ray wavelength": {
+                    "description": "Wavelength of characteristic X-ray used in measurement",
+                    "type": "number",
+                    "unit": "\\ANGSTROM",
+                    "example": 1.5406
+                  },
+                  "acceleration voltage": {
+                    "description": "Acceleration voltage of X-ray generation",
+                    "type": "number",
+                    "unit": "kV",
+                    "example": 40
+                  },
+                  "current": {
+                    "description": "Filament current",
+                    "type": "number",
+                    "unit": "mA",
+                    "example": 250
+                  },
+                  "scan axis": {
+                    "description": "Moved axises when data collected",
+                    "type": "string",
+                    "example": "Theta-2theta scan; 2theta scan"
+                  },
+                  "scanning step": {
+                    "description": "Intervals in data collection",
+                    "type": "number",
+                    "unit": "degree",
+                    "example": "0.02154; 0.01"
+                  },
+                  "incident angle": {
+                    "description": "Incident beam angle when the beam incidence was fixed",
+                    "type": "number",
+                    "unit": "degree",
+                    "example": 0.5
+                  },
+                  "offset angle": {
+                    "description": "Angle of offset from symmetric theta-2theta configuration",
+                    "type": "number",
+                    "unit": "degree",
+                    "example": 1
+                  },
+                  "2theta range": {
+                    "description": "Data acquistion range in case of theta-2theta and 2theta scan.",
+                    "type": "object",
+                    "properties": {
+                      "start": {
+                        "description": "starting value of 2theta ",
+                        "type": "number",
+                        "unit": "degree"
+                      },
+                      "finish": {
+                        "description": "finishing value of 2theta",
+                        "type": "number",
+                        "unit": "degree"
+                      }
+                    }
+                  },
+                  "scan rate": {
+                    "description": "How fast X-ray diffraction data collection has been done. The data can be presented with two units; deg/min or sec/step",
+                    "type": "number",
+                    "unit": "degree min^{-1}",
+                    "example": "2; 0.6"
+                  },
+                  "sample rotation": {
+                    "description": "Rotating speed when the sample is rotated",
+                    "var_condition": "Rotation",
+                    "type": "number",
+                    "unit": "revolution min^{-1}",
+                    "example": "15; 30; 60; 120"
+                  },
+                  "sample temperature": {
+                    "description": "Sample Temperature ",
+                    "type": "number",
+                    "unit": "K",
+                    "example": "300K"
+                  }
+                }
+              },
+              "analysis method": {
+                "description": "note on XRD data analysis",
+                "alias": "",
+                "type": "string",
+                "example": "Sin^{2}(Psi) method; Grazing incidence XRD (GXRD)"
+              },
+              "raw data": {
+                "description": "URI of data obtained duringmeasurement and analysis",
+                "type": "string",
+                "example": "XRD_profile.tiff; XRD_spectrum.csv"
+              }
+            }
+          }
+        }
+      },
+      "example": "[{\"SEM\":{...}},{\"ERD\":{...}},{\"AES\":{...}},{\"analysis environment\":{...}]"
+    },
+    "process": {
+      "description": "material processes composed of sequence of not only synthesis but all post processing steps.  \n• The sequence of the process is aligned with experimental procedure for the material preparation\n• If the procedure for a material unknown, state that as: ‘Unknown’\n• If a material is bought commercially and you do not know the process to prepare the material, indicate this by the label “Commercial”",
+      "alias": "process sequence; process conditions",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "extrusion": {
+            "description": "manufacturing process where solid polymer pellets or granules are heated until molten and then pushed through a die to form continuous shapes ***",
+            "type": "object",
+            "properties": {
+              "materials type": {
+                "description": "type of materials to be processed",
+                "type": "string",
+                "example": "PE; PP; PET; PS"
+              },
+              "material feed rate": {
+                "description": "the rate at which polymer pellets or granules are fed into the extruder",
+                "type": "number",
+                "unit": "g min^{-1}"
+              },
+              "temperature profile": {
+                "description": "temperature settings along different sections of the extruder",
+                "type": "object",
+                "properties": {
+                  "T_feed_zone": {
+                    "description": "temperature at feed zone",
+                    "type": "number",
+                    "unit": "K"
+                  },
+                  "T_compression_zone": {
+                    "description": "temperature at compression zone",
+                    "type": "number",
+                    "unit": "K"
+                  },
+                  "T_metering_zone": {
+                    "description": "temperature at metering zone",
+                    "type": "number",
+                    "unit": "K"
+                  }
+                }
+              },
+              "extruder speed": {
+                "description": "rotational spped of the screw",
+                "type": "number",
+                "unit": "rpm"
+              },
+              "line speed": {
+                "description": "the speed at which the extruded material is pulled away from the die",
+                "type": "number",
+                "unit": "cm min^{-1}"
+              },
+              "pressure": {
+                "description": "pressure applied within the extruder at the metering section",
+                "type": "number",
+                "unit": "MPa"
+              },
+              "residence time": {
+                "description": "time the polymer spends in the extruder",
+                "type": "number",
+                "unit": "min"
+              },
+              "cooling method": {
+                "description": "method used to cool and solidify the extrudate after leaving the die",
+                "type": "string",
+                "example": "air cooling; water baths"
+              }
+            }
+          },
+          "mixing": {
+            "description": "mixing two or more materials to make them homogenous",
+            "type": "object",
+            "properties": {
+              "equipment": {
+                "eng_def": "conventional name of model name of the mixing equipment",
+                "type": "string",
+                "example": "AR-100"
+              },
+              "mixer type": {
+                "description": "materials mixing type",
+                "type": "string",
+                "example": "magnetic stirrer, overhead stirrer"
+              },
+              "material mixed": {
+                "description": "information of material mixture",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "material": {
+                      "description": "name of materials such as material ID, molecular fomula, molecule name, etc",
+                      "type": "string",
+                      "example": "Material_01; carbon black; PVDF"
+                    },
+                    "amount": {
+                      "description": "amount of mixed material",
+                      "type": "number",
+                      "unit": "g",
+                      "example": "100; 50"
+                    }
+                  }
+                },
+                "example": "[{\"material\": \"Material_01\", \"amount\": 10}, {\"material\": \"PVDF\", \"amount\": 100}]"
+              },
+              "solvent": {
+                "description": "information of solvent for mixing",
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "name of solvent",
+                    "type": "string",
+                    "example": "toluene"
+                  },
+                  "amount": {
+                    "description": "amount of solvent",
+                    "type": "number",
+                    "unit": "mL",
+                    "example": 200
+                  }
+                }
+              },
+              "rotation speed": {
+                "description": "number of revolution per unit time for mixing process",
+                "type": "number",
+                "unit": "revolution min^{-1}",
+                "example": 1500
+              },
+              "temperature": {
+                "description": "mixing temperature",
+                "type": "number",
+                "unit": "K",
+                "example": 300
+              },
+              "time": {
+                "description": "mixing time",
+                "alias": "",
+                "type": "number",
+                "unit": "h",
+                "example": 0.5
+              },
+              "atmosphere": {
+                "description": "process environment within the mixing chamber &&&",
+                "type": "string",
+                "example": "air; Ar; N2; vacuum"
+              }
+            }
+          }
+        }
+      },
+      "example": "[{\"mixing\":{...}},{\"blade coating\":{...}},{\"drying\":{...}},{\"direct current poling\":{...}]"
+    },
+    "multilayer": {
+      "description": "common schema of mulilayer; described in general by the \"repeating unit\" composed of chemically homogeneous layers and the \"number of repeating unit\". ",
+      "type": "object",
+      "properties": {
+        "number of repeating unit": {
+          "description": "number of repeating unit of multilayer",
+          "type": "number",
+          "unit": "none"
+        },
+        "repeating unit": {
+          "description": "repeating unit in the multilayer",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "materials": {
+                "description": "material id (in the materials section of this schema), element name or chemical nomenclature of the layer in the repeating unit",
+                "type": "string",
+                "example": "material_01; material_12; Au; SiO2; PET"
+              },
+              "thickness": {
+                "description": "thickness of the layer in the repeating unit",
+                "type": "object",
+                "properties": {
+                  "value": {
+                    "description": "data value",
+                    "type": "number",
+                    "unit": "{\"\\\\mu m}"
+                  },
+                  "uncertainty": {
+                    "$ref": "#/$defs/uncertainty"
+                  }
+                }
+              },
+              "orientation": {
+                "description": "orientation of the layer in the case of single crystal layer",
+                "type": "string",
+                "example": "<111>; <101>"
+              },
+              "offcut": {
+                "description": "Offcut of the layer (substrate)",
+                "type": "object",
+                "properties": {
+                  "angle": {
+                    "description": "Offcut angle of the layer (substrate)",
+                    "type": "number",
+                    "unit": "degree",
+                    "example": 6
+                  },
+                  "direction": {
+                    "description": "A direction in a plane vector form (e.g [hkl]) toward which the substrate offset is imposed",
+                    "type": "string",
+                    "example": "110; -100"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "example": "{\"number of repeating unit\": 100, \"repeating unit\": [{\"materials\": \"material_01\", \"thickness\": {\"value\": 0.02, \"uncertainty\": 0.001}}, {\"materials\": \"Au\", \"thickness\": {\"value\": 0.02, \"uncertainty\": 0.001}},  {\"materials\": \"material_03\", \"thickness\": {\"value\": 0.02, \"uncertainty\": 0.001}}]}"
+    }
+  }
+}
