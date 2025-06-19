@@ -23,6 +23,8 @@
   "title": "KMDS materials research data schema (for test)",
   "description": "simplied schema to check the schema validity",
   "type": "object",
+  "$$comment": "format 'categories' will render the section metadata, materials and system in horizontal tabs",
+  "format": "categories",
   "required": [
     "metadata",
     "materials",
@@ -42,10 +44,12 @@
       ],
       "properties": {
         "data name": {
-          "description": "name of the data set, named by data provider; This is your own unique data or specimen identifier. With this text string alone, you should be able to identify the materials (system) in your own internal data management system.",
           "type": "string",
           "alias": "sample ID",
-          "example": "Zinc coated Fe-6Mn-3Al steel plate; Ti/Al dissimilar welded joint; Fe/C catalyst; Gd doped MOF 370; LLZO (Li7La3Zr2O12) Solid Electrolyte; Low Carbon TRIP Steel; 0.15C1.0Si1.5Mn1.5Al; Co single atom catalyst; Pt50Co50/TiO2; Material_1/Material_2/Material_3/Material_4;  "
+          "example": "Zinc coated Fe-6Mn-3Al steel plate; Ti/Al dissimilar welded joint; Fe/C catalyst; Gd doped MOF 370; LLZO (Li7La3Zr2O12) Solid Electrolyte; Low Carbon TRIP Steel; 0.15C1.0Si1.5Mn1.5Al; Co single atom catalyst; Pt50Co50/TiO2; Material_1/Material_2/Material_3/Material_4;  ",
+          "options": {
+            "infoText": "name of the data set, named by data provider; This is your own unique data or specimen identifier. With this text string alone, you should be able to identify the materials (system) in your own internal data management system."
+          }
         },
         "data classification": {
           "description": "classification code for relevant fields of science and technology announced by Ministry of Science and ICT of KOREA (https://www.law.go.kr)",
@@ -139,6 +143,8 @@
     "materials": {
       "description": "inherent data of material that composed of the material system; this is array of n materials defined by the material_id",
       "type": "array",
+      "$comment": "format 'tabs' will render the array with vertical tabs",
+      "format": "tabs",
       "minItems": 1,
       "items": {
         "type": "object",
