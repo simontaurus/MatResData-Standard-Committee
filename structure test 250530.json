@@ -1,4 +1,12 @@
 {
+  "@context": {
+    "schema": "https://schema.org/",
+    "metadata": {
+      "@id": "@nest"
+    },
+    "data name": "schema:name",
+    "data generation date": "schema:dateCreated"
+  },
   "$comment": {
     "***": "polymer (PolyInfo mapping - KU 이정현 - KIST 손정곤)",
     "^^^": "quantum chemistry (JAIST Kenta Hongo)",
