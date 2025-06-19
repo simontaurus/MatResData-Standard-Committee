@@ -279,440 +279,432 @@
       "example": "[{\"id\":\"material_01\",...},{\"id\":\"material_02\",...}...]"
     },
     "system": {
+      "title": "System",
       "description": "data of material system associated to a specific application; \"note\" is for general description of the materials system, \"configuration\" includes the information of system composition in terms of the materials existing in the materials section. It also has \"process\" data to build the materials system. Finally, \"performance\" data is the performance of the material for the specific application. ",
       "type": "object",
-      "properties": {
-        "name": {
-          "description": "system name classified in NCMRD schema",
-          "alias": "",
-          "type": "string",
-          "enum": [
-            "catalyst",
-            "piezoelectric",
-            "porous materials"
-          ],
-          "minItems": 1,
-          "maxItems": 1
-        }
+      "options": {
+        "$comment": "Settings for https://github.com/json-editor/json-editor",
+        "keep_oneof_values": false,
+        "enforce_const": true
       },
-      "allOf": [
+      "oneOf": [
         {
-          "if": {
-            "properties": {
-              "name": {
-                "const": "catalyst"
+          "title": "Catalyst",
+          "$comment": "system composed of catalyst active particle with support, sometimes with promotors",
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "catalyst",
+              "readOnly": "true",
+              "options": {
+                "enforce_const": true
               }
             },
-            "$comment": "system composed of catalyst active particle with support, sometimes with promotors"
-          },
-          "then": {
-            "properties": {
-              "note": {
-                "description": "description of the system such as major research theme or application",
-                "type": "string",
-                "example": "LIB made in UNIST Prof. Seo's lab today"
-              },
-              "configuration": {
-                "description": "configurational information of the catalyst system ",
-                "alias": "",
-                "type": "object",
-                "properties": {
-                  "active material": {
-                    "description": "materials ID (variable name) of active material in the catalyst system",
-                    "alias": "",
-                    "type": "string",
-                    "example": "Material_1; Material_2"
-                  },
-                  "amount of active material": {
-                    "description": "amount of active materials in the catlyst system",
-                    "type": "object",
-                    "properties": {
-                      "value": {
-                        "description": "data value",
-                        "type": "number",
-                        "unit": "%",
-                        "example": 0.3
-                      },
-                      "uncertainty": {
-                        "$ref": "#/$defs/uncertainty"
-                      }
+            "note": {
+              "description": "description of the system such as major research theme or application",
+              "type": "string",
+              "example": "LIB made in UNIST Prof. Seo's lab today"
+            },
+            "configuration": {
+              "description": "configurational information of the catalyst system ",
+              "alias": "",
+              "type": "object",
+              "properties": {
+                "active material": {
+                  "description": "materials ID (variable name) of active material in the catalyst system",
+                  "alias": "",
+                  "type": "string",
+                  "example": "Material_1; Material_2"
+                },
+                "amount of active material": {
+                  "description": "amount of active materials in the catlyst system",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "description": "data value",
+                      "type": "number",
+                      "unit": "%",
+                      "example": 0.3
+                    },
+                    "uncertainty": {
+                      "$ref": "#/$defs/uncertainty"
                     }
-                  },
-                  "coating material": {
-                    "description": "materials ID (variable name) of coating material in the catalyst system",
-                    "alias": "",
-                    "type": "string",
-                    "example": "Material_1; Material_2"
-                  },
-                  "amount of coating material": {
-                    "description": "amount of coating materials in the catalyst system",
-                    "type": "object",
-                    "properties": {
-                      "value": {
-                        "description": "data value",
-                        "type": "number",
-                        "unit": "%",
-                        "example": 0.3
-                      },
-                      "uncertainty": {
-                        "$ref": "#/$defs/uncertainty"
-                      }
-                    }
-                  },
-                  "promotor": {
-                    "description": "addictive materials which improves the catalyst performance",
-                    "alias": "",
-                    "type": "string",
-                    "example": "Material_3; Material_4"
-                  },
-                  "amount of promotor": {
-                    "description": "amount of promotor added in the catlyst system",
-                    "type": "object",
-                    "properties": {
-                      "value": {
-                        "description": "data value",
-                        "type": "number",
-                        "unit": "%",
-                        "example": 0.1
-                      },
-                      "uncertainty": {
-                        "$ref": "#/$defs/uncertainty"
-                      }
-                    }
-                  },
-                  "support materials": {
-                    "description": "materials ID (variable name) of support in the catalyst system",
-                    "alias": "",
-                    "type": "string",
-                    "example": "Material_2; Material_1"
                   }
                 },
-                "additionalProperties": false
+                "coating material": {
+                  "description": "materials ID (variable name) of coating material in the catalyst system",
+                  "alias": "",
+                  "type": "string",
+                  "example": "Material_1; Material_2"
+                },
+                "amount of coating material": {
+                  "description": "amount of coating materials in the catalyst system",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "description": "data value",
+                      "type": "number",
+                      "unit": "%",
+                      "example": 0.3
+                    },
+                    "uncertainty": {
+                      "$ref": "#/$defs/uncertainty"
+                    }
+                  }
+                },
+                "promotor": {
+                  "description": "addictive materials which improves the catalyst performance",
+                  "alias": "",
+                  "type": "string",
+                  "example": "Material_3; Material_4"
+                },
+                "amount of promotor": {
+                  "description": "amount of promotor added in the catlyst system",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "description": "data value",
+                      "type": "number",
+                      "unit": "%",
+                      "example": 0.1
+                    },
+                    "uncertainty": {
+                      "$ref": "#/$defs/uncertainty"
+                    }
+                  }
+                },
+                "support materials": {
+                  "description": "materials ID (variable name) of support in the catalyst system",
+                  "alias": "",
+                  "type": "string",
+                  "example": "Material_2; Material_1"
+                }
               },
-              "process": {
-                "$ref": "#/$defs/process"
-              },
-              "performance": {
-                "description": "Performance of the catalyst system",
-                "alias": "",
-                "type": "object",
-                "properties": {
-                  "thermal": {
-                    "description": "Thermal performance",
-                    "type": "object",
-                    "properties": {
-                      "conversion rate": {
-                        "description": "conversion rate per catalyst ",
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "temperature": {
-                              "description": "temperature at which conversion rate is measured",
-                              "type": "object",
-                              "properties": {
-                                "value": {
-                                  "description": "data value",
-                                  "type": "number",
-                                  "unit": "K",
-                                  "example": 350
-                                },
-                                "uncertainty": {
-                                  "$ref": "#/$defs/uncertainty"
-                                }
+              "additionalProperties": false
+            },
+            "process": {
+              "$ref": "#/$defs/process"
+            },
+            "performance": {
+              "description": "Performance of the catalyst system",
+              "alias": "",
+              "type": "object",
+              "properties": {
+                "thermal": {
+                  "description": "Thermal performance",
+                  "type": "object",
+                  "properties": {
+                    "conversion rate": {
+                      "description": "conversion rate per catalyst ",
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "temperature": {
+                            "description": "temperature at which conversion rate is measured",
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "description": "data value",
+                                "type": "number",
+                                "unit": "K",
+                                "example": 350
+                              },
+                              "uncertainty": {
+                                "$ref": "#/$defs/uncertainty"
                               }
-                            },
-                            "weight": {
-                              "description": "weight of catalyst",
-                              "type": "object",
-                              "properties": {
-                                "value": {
-                                  "description": "data value",
-                                  "type": "number",
-                                  "unit": "g",
-                                  "example": 3
-                                },
-                                "uncertainty": {
-                                  "$ref": "#/$defs/uncertainty"
-                                }
+                            }
+                          },
+                          "weight": {
+                            "description": "weight of catalyst",
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "description": "data value",
+                                "type": "number",
+                                "unit": "g",
+                                "example": 3
+                              },
+                              "uncertainty": {
+                                "$ref": "#/$defs/uncertainty"
                               }
-                            },
-                            "conversion rate": {
-                              "description": "estimated conversion rate",
-                              "type": "object",
-                              "properties": {
-                                "value": {
-                                  "description": "data value",
-                                  "type": "number",
-                                  "unit": "%",
-                                  "example": 90
-                                },
-                                "uncertainty": {
-                                  "$ref": "#/$defs/uncertainty"
-                                }
+                            }
+                          },
+                          "conversion rate": {
+                            "description": "estimated conversion rate",
+                            "type": "object",
+                            "properties": {
+                              "value": {
+                                "description": "data value",
+                                "type": "number",
+                                "unit": "%",
+                                "example": 90
+                              },
+                              "uncertainty": {
+                                "$ref": "#/$defs/uncertainty"
                               }
                             }
                           }
                         }
-                      },
-                      "equilibrium constant": {
-                        "description": "The ratio of products to reactants when a chemical reaction approaches to equilibrium",
-                        "type": "number",
-                        "unit": "none",
-                        "example": 6.63e-8
-                      },
-                      "measurement": {
-                        "$ref": "#/$defs/measurement"
                       }
+                    },
+                    "equilibrium constant": {
+                      "description": "The ratio of products to reactants when a chemical reaction approaches to equilibrium",
+                      "type": "number",
+                      "unit": "none",
+                      "example": 6.63e-8
+                    },
+                    "measurement": {
+                      "$ref": "#/$defs/measurement"
                     }
                   }
-                },
-                "additionalProperties": false
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "name": {
-                "const": "piezoelectric"
-              }
-            },
-            "$comment": "system composed of piezoelectric layer alone"
-          },
-          "then": {
-            "properties": {
-              "note": {
-                "description": "description of the system such as major research theme or application",
-                "type": "string",
-                "example": "energy havester made in SKKU Prof. Kim's lab 22-09-19"
-              },
-              "configuration": {
-                "description": "configurational information of a piezoelectric device",
-                "type": "object",
-                "properties": {
-                  "piezoelectric layer": {
-                    "description": "a layer containing piezoelectric materials",
-                    "type": "object",
-                    "properties": {
-                      "length": {
-                        "description": "length of the piezoelectric layer",
-                        "type": "number",
-                        "unit": "m",
-                        "example": 0.015
-                      },
-                      "width": {
-                        "description": "width of the piezoelectric layer",
-                        "type": "number",
-                        "unit": "m",
-                        "example": 0.015
-                      },
-                      "thickness": {
-                        "description": "thickness of the piezoelectric layer",
-                        "type": "number",
-                        "unit": "m",
-                        "example": 0.00008
-                      },
-                      "material": {
-                        "description": "material name of the piezoelectric layer",
-                        "type": "string",
-                        "example": "Material_2; P(VDF-TrFE)"
-                      }
-                    }
-                  }
-                },
-                "additionalProperties": false
-              },
-              "process": {
-                "$ref": "#/$defs/process"
-              },
-              "performance": {
-                "description": "performance data of the piezoelectric device",
-                "type": "object",
-                "properties": {
-                  "maximum output current": {
-                    "description": "measured maximum output current when applying the load to the piezoelectric device",
-                    "type": "object",
-                    "properties": {
-                      "value": {
-                        "description": "value of the maximum output current",
-                        "type": "number",
-                        "unit": "A",
-                        "example": 1e-9
-                      },
-                      "uncertainty": {
-                        "$ref": "#/$defs/uncertainty"
-                      },
-                      "applied load": {
-                        "description": "applied load to measure piezoelectric performance of device",
-                        "type": "object",
-                        "properties": {
-                          "load type": {
-                            "description": "type of the applied load with corresponding data unit",
-                            "type": "string",
-                            "enum": [
-                              "Bending in %",
-                              "Tapping in N",
-                              "Vibration in Hz"
-                            ]
-                          },
-                          "value": {
-                            "description": "value of the applied load",
-                            "type": "number",
-                            "unit": "as defined in \"load type\"",
-                            "example": "1; 5; 30"
-                          }
-                        }
-                      },
-                      "load resistance": {
-                        "description": "loaded resistance across the device to measure voltage",
-                        "type": "number",
-                        "unit": "Ohm",
-                        "example": 10000000
-                      }
-                    }
-                  },
-                  "measurement": {
-                    "$ref": "#/$defs/measurement"
-                  }
-                },
-                "additionalProperties": false
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "name": {
-                "const": "porous materials"
-              }
-            },
-            "$comment": "Information about the gas adsorption property of a porous material system"
-          },
-          "then": {
-            "properties": {
-              "note": {
-                "description": "description of the system such as major research theme or application ",
-                "alias": "",
-                "type": "string",
-                "example": "H2S gas adsorption of KIST-MOF-34"
-              },
-              "configuration": {
-                "description": "configurational information of the porous materials system ",
-                "alias": "",
-                "type": "object",
-                "properties": {
-                  "framework": {
-                    "description": "framework of porous material ",
-                    "alias": "",
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "example": "Materials_1"
-                    }
-                  },
-                  "grafted molecule": {
-                    "description": "Chemically or physically grafted molecule inside the pore of porous material",
-                    "alias": "",
-                    "type": "string",
-                    "example": "Materials_2"
-                  },
-                  "grafted molecule amount": {
-                    "description": "Loading amount of grafted molecule inside the pore of porous material",
-                    "type": "object",
-                    "properties": {
-                      "value": {
-                        "description": "data value",
-                        "type": "number",
-                        "unit": "mol g^{-1}",
-                        "example": 0.002
-                      },
-                      "uncertainty": {
-                        "$ref": "#/$defs/uncertainty"
-                      }
-                    }
-                  }
-                },
-                "additionalProperties": false
-              },
-              "process": {
-                "description": "process to build the materials system",
-                "(process_n)": {
-                  "description": "information of nth process, sequentially stored in array",
-                  "type": "corresponding data module of the process"
                 }
               },
-              "performance": {
-                "description": "Performance of the gas adsorption behavior of porous materials system",
-                "alias": "",
-                "type": "object",
-                "properties": {
-                  "gas adsorption": {
-                    "description": "Gas adsorption performance",
-                    "alias": "",
-                    "type": "array",
-                    "items": {
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "title": "Piezoelectric",
+          "$comment": "system composed of piezoelectric layer alone",
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "piezoelectric",
+              "readOnly": "true",
+              "options": {
+                "enforce_const": true
+              }
+            },
+            "note": {
+              "description": "description of the system such as major research theme or application",
+              "type": "string",
+              "example": "energy havester made in SKKU Prof. Kim's lab 22-09-19"
+            },
+            "configuration": {
+              "description": "configurational information of a piezoelectric device",
+              "type": "object",
+              "properties": {
+                "piezoelectric layer": {
+                  "description": "a layer containing piezoelectric materials",
+                  "type": "object",
+                  "properties": {
+                    "length": {
+                      "description": "length of the piezoelectric layer",
+                      "type": "number",
+                      "unit": "m",
+                      "example": 0.015
+                    },
+                    "width": {
+                      "description": "width of the piezoelectric layer",
+                      "type": "number",
+                      "unit": "m",
+                      "example": 0.015
+                    },
+                    "thickness": {
+                      "description": "thickness of the piezoelectric layer",
+                      "type": "number",
+                      "unit": "m",
+                      "example": 0.00008
+                    },
+                    "material": {
+                      "description": "material name of the piezoelectric layer",
+                      "type": "string",
+                      "example": "Material_2; P(VDF-TrFE)"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "process": {
+              "$ref": "#/$defs/process"
+            },
+            "performance": {
+              "description": "performance data of the piezoelectric device",
+              "type": "object",
+              "properties": {
+                "maximum output current": {
+                  "description": "measured maximum output current when applying the load to the piezoelectric device",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "description": "value of the maximum output current",
+                      "type": "number",
+                      "unit": "A",
+                      "example": 1e-9
+                    },
+                    "uncertainty": {
+                      "$ref": "#/$defs/uncertainty"
+                    },
+                    "applied load": {
+                      "description": "applied load to measure piezoelectric performance of device",
                       "type": "object",
                       "properties": {
-                        "absobate": {
-                          "description": "Name of adsorbed gas molecules",
-                          "alias": "",
+                        "load type": {
+                          "description": "type of the applied load with corresponding data unit",
                           "type": "string",
-                          "example": "CO2"
+                          "enum": [
+                            "Bending in %",
+                            "Tapping in N",
+                            "Vibration in Hz"
+                          ]
                         },
-                        "capacity": {
-                          "description": "Amount of adsorbed gas molecules",
-                          "alias": "",
-                          "value": {
-                            "description": "data value",
-                            "type": "number",
-                            "unit": "mol g^{-1}",
-                            "example": 0.0034
-                          },
-                          "uncertainty": {
-                            "$ref": "#/$defs/uncertainty"
-                          }
-                        },
-                        "enthalpy": {
-                          "description": "Binding enthalpy of adsorbed gas molecules",
-                          "alias": "",
-                          "value": {
-                            "description": "data value",
-                            "type": "number",
-                            "unit": "kJ mol^{-1}",
-                            "example": -45
-                          },
-                          "uncertainty": {
-                            "$ref": "#/$defs/uncertainty"
-                          }
-                        },
-                        "temperature": {
-                          "description": "temperature at which adsorption capacity is measured",
+                        "value": {
+                          "description": "value of the applied load",
                           "type": "number",
-                          "unit": "K",
-                          "example": 298
-                        },
-                        "pressure": {
-                          "description": "pressure at which adsorption capacity is measured",
-                          "type": "number",
-                          "unit": "Mpa",
-                          "example": 0.2
+                          "unit": "as defined in \"load type\"",
+                          "example": "1; 5; 30"
                         }
                       }
                     },
-                    "example": [
-                      "{\"absobate\": \"CO2\", \"capacity\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"enthalpy\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"temperature\": 298, \"pressure\": 0.2}",
-                      "{\"absobate\": \"NH3\", \"capacity\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"enthalpy\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"temperature\": 298, \"pressure\": 0.2}"
-                    ]
-                  },
-                  "measurement": {
-                    "$ref": "#/$defs/measurement"
+                    "load resistance": {
+                      "description": "loaded resistance across the device to measure voltage",
+                      "type": "number",
+                      "unit": "Ohm",
+                      "example": 10000000
+                    }
                   }
                 },
-                "additionalProperties": false
+                "measurement": {
+                  "$ref": "#/$defs/measurement"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "title": "Porous materials",
+          "$comment": "Information about the gas adsorption property of a porous material system",
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "porous materials",
+              "readOnly": "true",
+              "options": {
+                "enforce_const": true
               }
+            },
+            "note": {
+              "description": "description of the system such as major research theme or application ",
+              "alias": "",
+              "type": "string",
+              "example": "H2S gas adsorption of KIST-MOF-34"
+            },
+            "configuration": {
+              "description": "configurational information of the porous materials system ",
+              "alias": "",
+              "type": "object",
+              "properties": {
+                "framework": {
+                  "description": "framework of porous material ",
+                  "alias": "",
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "Materials_1"
+                  }
+                },
+                "grafted molecule": {
+                  "description": "Chemically or physically grafted molecule inside the pore of porous material",
+                  "alias": "",
+                  "type": "string",
+                  "example": "Materials_2"
+                },
+                "grafted molecule amount": {
+                  "description": "Loading amount of grafted molecule inside the pore of porous material",
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "description": "data value",
+                      "type": "number",
+                      "unit": "mol g^{-1}",
+                      "example": 0.002
+                    },
+                    "uncertainty": {
+                      "$ref": "#/$defs/uncertainty"
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "process": {
+              "description": "process to build the materials system",
+              "(process_n)": {
+                "description": "information of nth process, sequentially stored in array",
+                "type": "corresponding data module of the process"
+              }
+            },
+            "performance": {
+              "description": "Performance of the gas adsorption behavior of porous materials system",
+              "alias": "",
+              "type": "object",
+              "properties": {
+                "gas adsorption": {
+                  "description": "Gas adsorption performance",
+                  "alias": "",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "absobate": {
+                        "description": "Name of adsorbed gas molecules",
+                        "alias": "",
+                        "type": "string",
+                        "example": "CO2"
+                      },
+                      "capacity": {
+                        "description": "Amount of adsorbed gas molecules",
+                        "alias": "",
+                        "value": {
+                          "description": "data value",
+                          "type": "number",
+                          "unit": "mol g^{-1}",
+                          "example": 0.0034
+                        },
+                        "uncertainty": {
+                          "$ref": "#/$defs/uncertainty"
+                        }
+                      },
+                      "enthalpy": {
+                        "description": "Binding enthalpy of adsorbed gas molecules",
+                        "alias": "",
+                        "value": {
+                          "description": "data value",
+                          "type": "number",
+                          "unit": "kJ mol^{-1}",
+                          "example": -45
+                        },
+                        "uncertainty": {
+                          "$ref": "#/$defs/uncertainty"
+                        }
+                      },
+                      "temperature": {
+                        "description": "temperature at which adsorption capacity is measured",
+                        "type": "number",
+                        "unit": "K",
+                        "example": 298
+                      },
+                      "pressure": {
+                        "description": "pressure at which adsorption capacity is measured",
+                        "type": "number",
+                        "unit": "Mpa",
+                        "example": 0.2
+                      }
+                    }
+                  },
+                  "example": [
+                    "{\"absobate\": \"CO2\", \"capacity\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"enthalpy\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"temperature\": 298, \"pressure\": 0.2}",
+                    "{\"absobate\": \"NH3\", \"capacity\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"enthalpy\": {\"value\": 0.5, \"uncertainty\": 0.01}, \"temperature\": 298, \"pressure\": 0.2}"
+                  ]
+                },
+                "measurement": {
+                  "$ref": "#/$defs/measurement"
+                }
+              },
+              "additionalProperties": false
             }
           }
         }
